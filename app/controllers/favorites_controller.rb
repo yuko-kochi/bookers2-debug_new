@@ -4,7 +4,6 @@ class FavoritesController < ApplicationController
     @book = Book.find(params[:book_id])
     favorite = current_user.favorites.new(book_id: params[:book_id])
     favorite.save
-    # binding.pry
   end
 
   def destroy
