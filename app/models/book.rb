@@ -1,6 +1,8 @@
 class Book < ApplicationRecord
 	
 	belongs_to :user
+	
+	# dependent: :destroy 親モデルを削除する際に、その親モデルに紐づく「子モデル」も一緒に削除できる
 	has_many :favorites, dependent: :destroy
 	has_many :favorited_users, through: :favorites, source: :user
 	has_many :book_comments, dependent: :destroy
@@ -9,6 +11,9 @@ class Book < ApplicationRecord
 	validates :title, presence: true
 	validates :body, presence: true, length: {maximum: 200}
 	
+  # favorited_by?メソッド 
+  # 引数で渡されたユーザidがFavoritesテーブル内に存在（exists?）するかどうかを調べます。
+  # 存在していればtrue、存在していなければfalseを返すようにしています。
 	def favorited_by?(user)
     favorites.where(user_id: user.id).exists?
   end

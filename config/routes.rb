@@ -14,7 +14,10 @@ Rails.application.routes.draw do
     resources :rooms, only: [:create,:show]
   
   resources :books do
+    # resourceにすると、そのコントローラのidがリクエストに含まれなくなる。
+    # favoritesのshowページが不要で、idの受け渡しも必要ないので、resourceとなる
     resource :favorites, only: [:create, :destroy]
+    
     resources :book_comments, only: [:create, :destroy]
   end
   

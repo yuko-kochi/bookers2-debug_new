@@ -4,9 +4,10 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
          
+  # dependent: :destroy 親モデルを削除する際に、その親モデルに紐づく「子モデル」も一緒に削除できる
   has_many :books, dependent: :destroy
   has_many :favorites, dependent: :destroy
-  has_many :favorited_users, through: :favorites, source: :book
+  has_many :favorited_books, through: :favorites, source: :book
   has_many :book_comments, dependent: :destroy
   
   attachment :profile_image, destroy: false

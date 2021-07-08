@@ -1,3 +1,4 @@
+<!--自分（ログインしているユーザ）が含まれているかをfavorited_by?メソッドで判定 -->
 <% if book.favorited_by?(current_user) %>
   <%= link_to book.favorites.count, book_favorites_path(book), method: :delete, remote: true, class: "fas fa-heart heart_red"  %>
 <% else %>
