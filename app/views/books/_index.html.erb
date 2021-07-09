@@ -20,7 +20,33 @@
           <%= render partial: 'favorites/favorites', locals: { book: book } %>
         </td>
         <td>コメント数: <%= book.book_comments.count %></td>
+        <td>
+          <td>
+            <div id="star-rate-<%= book.id %>"></div>
+              <script>
+              $('#star-rate-<%= book.id %>').raty({
+                size: 36,
+                starOff:  '<%= asset_path('star-off.png') %>',
+                starOn : '<%= asset_path('star-on.png') %>',
+                half      : false,
+                readOnly: true,
+                score: <%= book.rate%>,
+              });
+              </script>
+          </td>
       </tr>
     <% end %>
   </tbody>
 </table>
+<div>
+ <%= current_user.books.where("created_at >= ?", Time.zone.now.beginning_of_day).count %>
+</div>
+<div>
+ <%= current_user.books.where(created_at: 1.day.ago.all_day).count %>
+</div>
+<div>
+ <%= current_user.books.where(created_at: Time.current.all_week).count %>
+</div>
+<div>
+ <%= current_user.books.where(created_at: Time.current.last_week.all_week).count %>
+</div>
