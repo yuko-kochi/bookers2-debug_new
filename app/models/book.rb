@@ -29,6 +29,4 @@ class Book < ApplicationRecord
       @book = Book.where("title LIKE?","%#{word}%")
     end
   end
-  
-  scope :latest, -> {order(updated_at: :desc)}
 end
