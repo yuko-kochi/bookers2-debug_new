@@ -6,8 +6,8 @@ class Book < ApplicationRecord
 	has_many :favorites, dependent: :destroy
 	has_many :favorited_users, through: :favorites, source: :user
 	has_many :book_comments, dependent: :destroy
-	
-	Book.where(category_id: @category )
+	has_many :tag_maps, dependent: :destroy
+  has_many :tags, through: :tag_maps
 	
 	validates :rate, presence: true
 	validates :title, presence: true
@@ -31,4 +31,18 @@ class Book < ApplicationRecord
       @book = Book.where("title LIKE?","%#{word}%")
     end
   end
+  
+  def save_tag(sent_tags)
+    if self.tags != nil
+      article_tags_records = ArticleTag.where(article_id: self.id)
+      article_tags_records.destroy_all
+    end
+
+    tag_list.each do |tag|
+      inspected_tag = Tag.where(tag_name: tag).first_or_create
+      self.book_tags << inspected_tag
+    end
+  end
+  
+  
 end

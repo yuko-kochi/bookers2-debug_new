@@ -9,6 +9,7 @@ class BooksController < ApplicationController
   end
 
   def index
+    @tag_list = Tag.all
     if params[:sort]
       @books = Book.all.order(params[:sort])
     else
@@ -18,16 +19,12 @@ class BooksController < ApplicationController
     end
     @book = Book.new
   end
-  
-  def category
-    @category = Book.find_by(category_id: params[:category_id])
-    @books = Books.category
-  end
 
   def create
-    @book = Book.new(book_params)
-    @book.user_id = current_user.id
+    @book = current_user.books.new(book_params) 
+    tag_list = params[:book][:tag_name].split(nil)  
     if @book.save
+      @book.save_tag(tag_list)   
       redirect_to book_path(@book), notice: "You have created book successfully."
     else
       @books = Book.all
@@ -62,7 +59,7 @@ class BooksController < ApplicationController
   private
 
   def book_params
-    params.require(:book).permit(:title, :body, :rate, :category)
+    params.require(:book).permit(:title, :body, :rate)
   end
 
 end
