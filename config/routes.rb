@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     # favoritesのshowページが不要で、idの受け渡しも必要ないので、resourceとなる
     resource :favorites, only: [:create, :destroy]
     resources :book_comments, only: [:create, :destroy]
+    get 'category'
   end
   
 end

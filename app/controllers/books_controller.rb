@@ -18,6 +18,11 @@ class BooksController < ApplicationController
     end
     @book = Book.new
   end
+  
+  def category
+    @category = Book.find_by(category_id: params[:category_id])
+    @books = Books.category
+  end
 
   def create
     @book = Book.new(book_params)
@@ -57,7 +62,7 @@ class BooksController < ApplicationController
   private
 
   def book_params
-    params.require(:book).permit(:title, :body, :rate)
+    params.require(:book).permit(:title, :body, :rate, :category)
   end
 
 end
